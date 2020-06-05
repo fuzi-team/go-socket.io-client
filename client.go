@@ -11,7 +11,7 @@ import (
 type Options struct {
 	Transport string            //protocol name string,websocket polling...
 	Query     map[string]string //url的附加的参数
-	Header 	  map[string][]string
+	Header    map[string][]string
 }
 
 type Client struct {
@@ -32,7 +32,11 @@ func NewClient(uri string, opts *Options) (client *Client, err error) {
 	if err != nil {
 		return
 	}
-	url.Path = path.Join("/socket.io", url.Path)
+
+	if url.Path == "" {
+		url.Path = path.Join("/socket.io", url.Path)
+	}
+
 	url.Path = url.EscapedPath()
 	if strings.HasSuffix(url.Path, "socket.io") {
 		url.Path += "/"
